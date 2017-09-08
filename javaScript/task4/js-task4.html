@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	.controller{
+		overflow: hidden;
+		margin: 20px auto;
+	}
+	
+	.controller .input,.controller .btn-group{
+		float: left;
+	}
+	.btn-group{
+		margin-right: 20px;
+	}
+	#queue li{
+		list-style: none;
+		float: left;
+		margin-right: 20px;
+	}
+	#queue li a{
+		display: block;
+		background: red;
+		padding: 10px;
+		color: #fff;
+		text-decoration: none;
+	}
+	</style>
+</head>
+
+<body>
+<div class="controller">
+	<div class="input">
+		<input type="text" name="num" id="num-input">
+	</div>
+	<div class="btn-group">
+		<button id="in-left">左侧入</button>
+		<button id="in-right">右侧入</button>
+	</div>
+	<div class="btn-group">
+		<button id="out-left">左侧出</button>
+		<button id="out-right">右侧出</button>
+	</div>
+</div>
+<ul id="queue">
+	<li><a href="##">3</a></li>
+	<li><a href="##">7</a></li>
+	<li><a href="##">12</a></li>
+</ul>
+<script>
+	function queueIn(queue,value,direction){
+		var content=document.createTextNode(value);
+		var a=document.createElement('a');
+		a.href="##";
+		a.appendChild(content);
+		var li=document.createElement('li');
+		li.appendChild(a);
+		onclickLi(li);
+		if(direction==true)
+			{
+				var firstLi=queue.firstChild;
+				queue.insertBefore(li,firstLi);
+			}
+		else{
+			queue.appendChild(li);
+		}
+	}
+	
+	function queueOut(queue,direction){
+		if(direction==true)
+			{
+				var firstli=queue.firstElementChild;/*如果是firstchild则包含空白节点，会删除两次才成功*/
+				var content=firstli.getElementsByTagName('a')[0].text;
+				alert(content);
+				firstli.remove();
+				
+			}
+		else{
+			var lastli=queue.lastElementChild;
+			var content=lastli.getElementsByTagName('a')[0].text;
+			alert(content);
+			lastli.remove();
+		}
+	}
+	/*初始化时给所有Li元素添加点击事件*/
+	function liOnclick(){
+		var queue=document.getElementById('queue');
+		var li=queue.getElementsByTagName('li');
+		for(var i=0;i<li.length;i++)
+			{
+				onclickLi(li[i]);
+			}
+	}
+	/*将给li添加点击事件的函数单独分出来，方便添加了li时也能通过此函数添加点击事件。*/
+	function onclickLi(li){
+		li.onclick=function(){
+					this.remove();
+				};
+	}
+	function init(){
+		var leftIn=document.getElementById('in-left');
+		var leftOut=document.getElementById('out-left');
+		var rightIn=document.getElementById('in-right');
+		var rightOut=document.getElementById('out-right');
+		
+		leftIn.onclick=function(){
+			var queue=document.getElementById('queue');
+			var value=document.getElementById('num-input').value;
+			if(value.length==0||!(/^[0-9]+$/).test(value))
+				{
+					alert("请输入数字!");
+					return false;
+				}
+			queueIn(queue,value,true);
+		};
+		rightIn.onclick=function(){
+			var queue=document.getElementById('queue');
+			var value=document.getElementById('num-input').value;
+			queueIn(queue,value,false);
+		};
+		
+		leftOut.onclick=function(){
+			var queue=document.getElementById('queue');
+			queueOut(queue,true);
+		};
+		rightOut.onclick=function(){
+			var queue=document.getElementById('queue');
+			queueOut(queue,false);
+		};
+		/*初始化li的点击事件*/
+		liOnclick();
+	}
+	
+	//解决初始加载多个函数的问题
+function addLoadEvent(func){
+	var oldonload=window.onload;
+	if(typeof window.onload !='function'){
+		window.onload=func;
+	}else{
+		window.onload=function(){
+			oldonload();
+			func();
+		}
+	}
+}
+	addLoadEvent(init);
+	
+	</script>
+</body>
+</html>

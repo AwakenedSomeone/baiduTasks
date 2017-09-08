@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	.controller{
+		overflow: hidden;
+		margin: 20px auto;
+	}
+	
+	.controller .input,.controller .btn-group{
+		float: left;
+	}
+	.btn-group{
+		margin-right: 20px;
+	}
+	#queue{
+		overflow: hidden;
+		
+		
+	}
+	#queue li{
+		list-style: none;
+		margin-right: 10px;
+		display: inline-block;
+		vertical-align: bottom;
+	}
+	#queue li a{
+		display: block;
+		background: red;
+		padding:0 10px;
+		color: #fff;
+		text-decoration: none;
+		
+		
+	}
+	#queue li a:hover{
+		background: #ccc;
+	}
+	</style>
+</head>
+
+<body>
+<div class="controller">
+	<div class="input">
+		<input type="text" name="num" id="num-input">
+	</div>
+	<div class="btn-group">
+		<button id="in-left">左侧入</button>
+		<button id="in-right">右侧入</button>
+	</div>
+	<div class="btn-group">
+		<button id="out-left">左侧出</button>
+		<button id="out-right">右侧出</button>
+	</div>
+</div>
+<ul id="queue">
+<!--	<li><a href="##" style="height: 25px">2</a></li>
+	<li><a href="##" style="height: 95px">9</a></li>
+	<li><a href="##" style="height: 65px">6</a></li>-->
+</ul>
+
+<div><button id="sort">排序</button></div>
+<script>
+	/*入队函数*/
+	function queueIn(queue,value,direction){
+		var lists=queue.getElementsByTagName('li');
+		if(lists.length>=60)
+			{
+				alert("队列已满！");
+				return false;
+			}
+		var a=document.createElement('a');
+		a.href="##";
+		a.style.height=value+"px";
+		var li=document.createElement('li');
+		li.appendChild(a);
+		/*给新创建的li绑定点击事件*/
+		onclickLi(li);
+		if(direction==true)
+			{
+				var firstLi=queue.firstChild;
+				queue.insertBefore(li,firstLi);
+			}
+		else{
+			queue.appendChild(li);
+		}
+	}
+	/*出队函数*/
+	function queueOut(queue,direction){
+		if(direction==true)
+			{
+				var firstli=queue.firstElementChild;/*如果是firstchild则包含空白节点，会删除两次才成功*/
+				firstli.remove();
+			}
+		else{
+			var lastli=queue.lastElementChild;
+			lastli.remove();
+		}
+	}
+	/*初始化时给所有Li元素添加点击事件*/
+	function liOnclick(){
+		var queue=document.getElementById('queue');
+		var li=queue.getElementsByTagName('li');
+		for(var i=0;i<li.length;i++)
+			{
+				onclickLi(li[i]);
+			}
+	}
+	/*将给li添加点击事件的函数单独分出来，方便添加了li时也能通过此函数添加点击事件。*/
+	function onclickLi(li){
+		li.onclick=function(){
+					this.remove();
+				};
+	}
+	/*初始化函数*/
+	function init(){
+		var leftIn=document.getElementById('in-left');
+		var leftOut=document.getElementById('out-left');
+		var rightIn=document.getElementById('in-right');
+		var rightOut=document.getElementById('out-right');
+		var sortBtn=document.getElementById('sort');
+		leftIn.onclick=function(){
+			var queue=document.getElementById('queue');
+			var value=document.getElementById('num-input').value;
+			if(!valueCheck(value))
+				{
+					return false;
+				}
+			queueIn(queue,value,true);
+		};
+		rightIn.onclick=function(){
+			var queue=document.getElementById('queue');
+			var value=document.getElementById('num-input').value;
+			if(!valueCheck(value))
+				{
+					return false;
+				}
+			queueIn(queue,value,false);
+		};
+		
+		leftOut.onclick=function(){
+			var queue=document.getElementById('queue');
+			queueOut(queue,true);
+		};
+		rightOut.onclick=function(){
+			var queue=document.getElementById('queue');
+			queueOut(queue,false);
+		};
+		/*初始化li的点击事件*/
+		liOnclick();
+		
+		sortBtn.onclick=function(){
+			var queue=document.getElementById('queue');
+			sort(queue);
+		}
+	
+	}
+	function valueCheck(value){
+		if(value.length==0||!(/^[0-9]+$/).test(value))
+				{
+					alert("请输入数字!");
+					return false;
+				}
+			else if(value<10||value>100)
+				{
+					alert("请输入10-100之间的数字!");
+					return false;
+				}
+		return true;
+	}
+	
+/*排序函数*/	
+		function sort(queue){
+			var li=queue.getElementsByTagName("li");
+			for(var i=0;i<li.length;i++)
+				{
+					for(var n=0;n<li.length-i-1;n++)
+							{
+								var a1=li[n].getElementsByTagName('a')[0];
+								var a2=li[n+1].getElementsByTagName('a')[0];			var h1=a1.style.height;
+								h1=parseInt(h1);
+								var h2=a2.style.height;
+								h2=parseInt(h2);
+								if(h1>h2)
+									{
+										/*a1.style.height=h2;
+										a2.style.height=h1;方法一，表面现象是交换了，但是实际内容没有交换*/
+										/*让下一个节点插入当前节点之前，就可以交换了*/
+										li[n].parentNode.insertBefore(li[n+1],li[n]);
+									}
+							}
+				}
+		}
+	//解决初始加载多个函数的问题
+function addLoadEvent(func){
+	var oldonload=window.onload;
+	if(typeof window.onload !='function'){
+		window.onload=func;
+	}else{
+		window.onload=function(){
+			oldonload();
+			func();
+		}
+	}
+}
+	addLoadEvent(init);
+	
+	</script>
+</body>
+</html>
