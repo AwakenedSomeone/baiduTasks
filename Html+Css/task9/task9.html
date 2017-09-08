@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!--让IE浏览器以最新的渲染模式渲染网页-->
+<meta http-equiv="X-UA-compatible" content="IE=edg">
+<!--页面宽度强制h适应设备宽度-->
+<meta name="viewport" content="width=device-width" initial-scake="1">
+<title>task 9</title>
+
+<link rel="stylesheet" href="css/task9.css" />
+<link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+	$(function(){
+
+		/*让两边的高度一致
+		 var $left=$('.left_side');
+		var $right=$('.right_frame');
+		if($left.outerHeight()>$right.outerHeight())
+			{
+				$right.outerHeight($left.outerHeight());;
+			}
+		else{
+			$left.outerHeight($right.outerHeight());
+		}*/
+		
+		var $nav_side=$('.nav_side');
+		var $list=$nav_side.find('li');
+		/*左侧导航*/
+		$list.click(function(e){
+			if(!$(this).is(':animated'))
+				{
+					if($(this).has('ul'))
+					{
+						if($(this).hasClass('active'))
+							{
+								$(this).find('li').removeClass('active').end().removeClass('active').find('ul').slideUp();
+							}
+						else{
+							$(this).children('ul').slideDown().end().addClass('active');
+						}
+
+					}			
+				}
+			e.stopPropagation();			
+		});
+		/*登录弹窗*/	
+		$('#onland').click(function(){
+			var $login=$('#login_wrap');
+			$login.height($('document').height());
+			$('body').append($login);
+			$login.show("normal");
+			$('.cover').click(function(){
+				$login.hide("normal");
+			});
+			$('.closeBtn').click(function(){
+				$login.hide("normal");
+			});
+		});
+		/*交换买方卖方*/
+		$('#change').click(function(){
+			var buyValue=$("#buyer option:selected").text();//获取select的显示值
+			var sellValue=$("#seller option:selected").text();
+			$("#buyer option:selected").text(sellValue);
+			$("#seller option:selected").text(buyValue);
+		});
+		
+		/*查询价格滑动*/
+		function slide(page,i,$v_contain,$v_show,speed){
+			var v_width=$v_content.width();
+			var len=$v_show.children('li').length;//总的视频图片数
+			var page_count=Math.ceil(len/i);//只要不是整数，就往大的方向取最小的整数
+	
+			$('span.next').click(function(){
+
+				if(!$v_show.is(':animated'))
+					{
+							if(page==page_count){
+							$v_show.animate({left:'0px'},speed);
+							page=1;
+						}
+						else
+							{
+								$v_show.animate({left:'-='+v_width},speed);
+								page++;
+							}
+					}
+			});
+			$('span.prev').click(function(){
+
+				if(!$v_show.is(':animated'))
+					{
+							if(page==1){
+							$v_show.animate({left:'-='+v_width*(page_count-1)},speed);
+							page=page_count;
+						}
+						else
+							{
+								$v_show.animate({left:'+='+v_width},speed);
+								page--;
+							}
+					}		
+	});
+		}
+		var page=1;
+		var i=6;//每版放四张图片
+		var $v_show=$('.item_show');//找到视频内容展示区域
+		var $v_content=$('.item_contain');//找到视频内容展示区域的外围div
+		var speed="slow";
+		slide(page,i,$v_content,$v_show,speed);
+	});
+	</script>
+</head>
+
+<body>
+<div class="head">
+	<div class="head_left"></div>
+	<div class="head_right">
+		<input type="text" name="search">
+		<span class="user" id="onland"><i class=" icon-user" ></i>登录</span>
+	</div>
+</div><!--head end-->
+<div class="wrap">
+	<div class="left_side">
+		<div class="left_top">
+			<div class="user_message">
+				<div class="head_pic"><img src="images/task9/head_pic.png"></div><span class="user_name ">username</span>
+			</div>
+			<div class="other_message">
+				<p class="save "><span class="upper">111</span><span class="down">收藏</span></p>
+				<p class="focus"><span class="upper">111</span><span class="down">关注</span></p>
+			</div>
+		</div><!--left_top end-->
+		<div class="nav_side">
+			<ul>
+				<li >
+					<i class="icon-list-alt"></i><a href="##"><i></i>个人报表</a>
+					<ul>
+						<li ><i class="icon-angle-right"></i><a href="##"><i class="icon-folder-close"></i>文件一</a></li>
+						<li ><i class=" icon-angle-down"></i>
+							<a href="##"  ><i class="icon-folder-open"></i>文件二</a>
+							<ul>
+								<li><a href="##"><i class=" icon-file-alt"></i>文档1</a></li>
+								<li><a href="##"><i class=" icon-file-alt"></i>文档2</a></li>
+							</ul>
+						</li>
+						<li><i class=" icon-angle-right"></i><a href="##"><i></i>文件三</a>
+						</li>
+					</ul>
+				</li>
+				<li><i class="icon-star"></i><a href="##"><i></i>个人收藏</a>
+				<ul>
+						<li ><i class="icon-angle-right"></i><a href="##"><i class="icon-folder-close"></i>文件一</a></li>
+						<li ><i class=" icon-angle-down"></i>
+							<a href="##"  ><i class="icon-folder-open"></i>文件二</a>
+							<ul>
+								<li><a href="##"><i class=" icon-file-alt"></i>文档1</a></li>
+								<li><a href="##"><i class=" icon-file-alt"></i>文档2</a></li>
+							</ul>
+						</li>
+						<li><i class=" icon-angle-right"></i><a href="##"><i></i>文件三</a>
+						</li>
+					</ul></li>
+				<li><i  class="icon-share-sign"></i><a href="##"><i></i>我的分享</a></li>
+				<li><i class="icon-picture"></i><a href="##"><i></i>图库</a></li>
+				<li><i class="icon-star"></i><a href="##"><i></i>成长记录</a></li>
+				<li><i class="icon-credit-card"></i><a href="##"><i></i>账户信息</a></li>
+			</ul>
+		</div>
+	</div><!--left_side end -->
+	<div class="right_frame">
+		<div class="path">
+			<ol class="path_breadcrumb">
+				<li><a href="##">c站</a></li>
+				<li><a href="##">个人报表</a></li>
+				<li><a href="##">文件一</a></li>
+				<li><a href="##" class="active">文档1</a></li>
+			</ol>
+		</div>
+		<div class="frame_content clearfix">
+			<form>
+				<div class="search_items clearfix ">
+					<div class="item_1">
+						<p>
+							<span>查询项</span>
+							<select>
+								<option>第一项</option>
+							</select>
+						</p>
+					</div><!--item_1 end-->
+					<div class="item_2">
+						<div class="item_2_left">
+							<p>
+							<span >买方</span>
+							<select id="buyer">
+								<option value="小A" selected>小A</option>
+								<option value="小b">小B</option>
+							</select>
+						</p>
+						<p>
+							<span>卖方</span>
+							<select id="seller">
+								<option value="小C" selected>小C</option>
+								<option value="小d" >小D</option>
+							</select>
+						</p>
+						</div>
+						<p class="change" id="change"></p>
+					</div><!--item_2 end-->
+					<div class="item_3">
+						<div class="row clearfix">
+							<p><span>日期</span><input type="text" name="date" /></p>
+							<p>
+								<span>总耗时</span>
+								<select>
+									<option>8天</option>
+								</select>
+							</p>
+						</div>
+						<div class="row clearfix">
+							<p>
+								<span>人数</span>
+								<select>
+									<option>10人</option>
+								</select>
+							</p>
+							<p>
+								<span>成交项</span>
+								<select>
+									<option>10项</option>
+								</select>
+							</p>
+						</div>
+					</div><!--item_3 end-->
+					<div class="item_4">
+						<button type="submit" name="sub" class="button">搜索</button>
+					</div><!--item_4 end-->
+				</div><!--search_items end-->
+			</form>
+			<div class="history_search clearfix">
+			<span class="prev"><i class="icon-angle-left"></i></span>
+			<div class="item_contain">
+				<ul class="item_show">
+					<li class="active"><time>11:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>11:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>11:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>11:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>11:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>11:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>13:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>12:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>12:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>12:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>12:00<sub>am</sub></time><span>1300</span></li>
+					<li><time>12:00<sub>am</sub></time><span>1300</span></li>
+					
+				</ul>
+			</div>
+				
+				<span class="next"><i class="icon-angle-right"></i></span>
+				<div class="history">
+					<i class="icon-calendar"></i><span>历史查询</span>
+				</div>
+			</div><!--history_search end-->
+			<div class="items clearfix">
+				<div class="title">2017年8月份统计</div>
+				<ul>
+					<li class="success"><div><p class="data"><span class="digit">12236</span><span>成交量</span></p><p class="example"></p></div>
+					</li>
+					<li class="primary"><div ><p class="data"><span class="digit">12236</span><span>成交量</span></p><p class="example"></p></div>
+					</li>
+					<li class="danger"><div ><p class="data"><span class="digit">12236</span><span>成交量</span></p><p class="example"></p></div>
+					</li>
+					<li class="warning"><div ><p class="data"><span class="digit">12236</span><span>成交量</span></p><p class="example"></p></div>
+					</li>
+				</ul>
+			</div><!--items end-->
+			<div class="panel first_item">
+				<div class="panel_head">第一组项目</div>
+				<div class="panel_body">
+					<div class="programs">
+						<ul class="program_list">
+							<li class="active"><a href="##">项目一</a></li>
+							<li><a href="##">项目一</a></li>
+							<li><a href="##">项目一</a></li>
+							<li><a href="##">项目一</a></li>
+							<li><a href="##">项目一</a></li>
+						</ul>
+						<div class="program_shows">
+							<table>
+								<tbody>
+									<tr><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td></tr>
+									<tr><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td></tr>
+									<tr><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td></tr>
+									<tr><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td></tr>
+									<tr><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td></tr>
+									<tr><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td><td>购买材料一</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div><!--first_item end-->
+			<div class="panel second_program">
+				<div class="panel_head">第一组项目</div>
+				<div class="panel_body">
+					<form>
+						<div class="programs report_form">
+							<h1 class="title"><span>标题</span><p class="explain">项目报表三</p></h1>
+							<div class="report clearfix"><p><span class="title">价格</span><span class="price">158</span></p><p><span class="title">负责人</span><span>小A</span></p></div>
+							<div class="report_content">
+								<span class="title">详细描述</span>
+								<p class="explain">该项目的负责人是....</p>
+							</div>
+							<div class="sub_search">
+								<span class="title sub_search_left">
+									<input type="checkbox" name="agree" id="agree" />
+									<label for="agree">遵守保密协议</label>
+								</span>
+								<span><button type="submit" class="button">搜索</button></span>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div><!--frame_content end-->
+	</div><!--right_frame end-->
+</div>
+<div class="login_wrap" id="login_wrap">
+	<div class="cover"></div>
+	<div class="login">
+	<i class="icon-edit logo"></i>
+		<form action="task1.html">
+			<div class="login_content">
+				<div>
+					<span>用户名:</span>
+					<span><input type="text" name="username" placeholder="用户名"></span>
+				</div>
+				<div>
+					<span>密码:</span>
+					<span><input type="password" name="pwd" placeholder="密码"></span>
+				</div>
+				<div><button type="submit" class="button">登录</button></div>
+			</div>
+		</form>
+		<i class="closeBtn  icon-remove"></i>
+	</div>
+</div>
+
+</body>
+</html>
