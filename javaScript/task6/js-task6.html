@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	.controller{
+		overflow: hidden;
+		margin: 20px auto;
+	}
+	
+	.controller .input,.controller .btn-group{
+		float: left;
+	}
+	.btn-group{
+		margin-right: 20px;
+	}
+	#queue li{
+		list-style: none;
+		float: left;
+		margin-right: 20px;
+	}
+	#queue li a{
+		display: block;
+		background: red;
+		padding: 10px;
+		color: #fff;
+		text-decoration: none;
+	}
+	#num-input{
+		width: 200px;
+		height: 100px;
+	}
+	</style>
+</head>
+
+<body>
+<div class="controller">
+	<div class="input">
+		<textarea  name="num" id="num-input"></textarea>
+	</div>
+	<div class="btn-group">
+		<button id="in-left">左侧入</button>
+		<button id="in-right">右侧入</button>
+	</div>
+	<div class="btn-group">
+		<button id="out-left">左侧出</button>
+		<button id="out-right">右侧出</button>
+	</div>
+	<div class="btn-group">
+		<input type="text" name="search-input" id="search-input" />
+		<button id="search">查询</button>
+	</div>
+</div>
+<ul id="queue">
+	<li><a href="##">3</a></li>
+	<li><a href="##">7</a></li>
+	<li><a href="##">12</a></li>
+</ul>
+<script>
+	function queueIn(queue,value,direction){
+		var content=document.createTextNode(value);
+		var a=document.createElement('a');
+		a.href="##";
+		a.appendChild(content);
+		var li=document.createElement('li');
+		li.appendChild(a);
+		onclickLi(li);
+		if(direction==true)
+			{
+				var firstLi=queue.firstChild;
+				queue.insertBefore(li,firstLi);
+			}
+		else{
+			queue.appendChild(li);
+		}
+	}
+	
+	function queueOut(queue,direction){
+		if(direction==true)
+			{
+				var firstli=queue.firstElementChild;/*如果是firstchild则包含空白节点，会删除两次才成功*/
+				var content=firstli.getElementsByTagName('a')[0].text;
+				alert(content);
+				firstli.remove();
+				
+			}
+		else{
+			var lastli=queue.lastElementChild;
+			var content=lastli.getElementsByTagName('a')[0].text;
+			alert(content);
+			lastli.remove();
+		}
+	}
+	/*初始化时给所有Li元素添加点击事件*/
+	function liOnclick(){
+		var queue=document.getElementById('queue');
+		var li=queue.getElementsByTagName('li');
+		for(var i=0;i<li.length;i++)
+			{
+				onclickLi(li[i]);
+			}
+	}
+	/*将给li添加点击事件的函数单独分出来，方便添加了li时也能通过此函数添加点击事件。*/
+	function onclickLi(li){
+		li.onclick=function(){
+					this.remove();
+				};
+	}
+	function init(){
+		var leftIn=document.getElementById('in-left');
+		var leftOut=document.getElementById('out-left');
+		var rightIn=document.getElementById('in-right');
+		var rightOut=document.getElementById('out-right');
+		var search=document.getElementById('search');
+		
+		
+		leftIn.onclick=function(){
+			var queue=document.getElementById('queue');
+			var content=document.getElementById('num-input').value;
+			var value=new Array();
+			content=content.replace(/(^\s*)|(\s*$)/g,"");  /*去除前后多余的空格*/
+			value=content.split(/\s|\uff0c|\u3001/);
+			if(value.length==0)
+				{
+					alert("请输入数字、文字或字母!");
+					return false;
+				}
+			for (i=0;i<value.length ;i++ )
+				{
+				queueIn(queue,value[i],true);
+				} 
+			
+		};
+		rightIn.onclick=function(){
+			var queue=document.getElementById('queue');
+			var content=document.getElementById('num-input').value;
+			var value=new Array();
+			content=content.replace(/(^\s*)|(\s*$)/g,"");  /*去除前后多余的空格*/
+			value=content.split(/\s|\uff0c|\u3001/);/*将字符串切割*/
+			if(value.length==0)
+				{
+					alert("请输入数字、文字或字母!");
+					return false;
+				}
+			for (i=0;i<value.length ;i++ )
+				{
+				queueIn(queue,value[i],false);
+				} 
+		};
+		
+		leftOut.onclick=function(){
+			var queue=document.getElementById('queue');
+			queueOut(queue,true);
+		};
+		rightOut.onclick=function(){
+			var queue=document.getElementById('queue');
+			queueOut(queue,false);
+		};
+		
+		
+		
+		/*初始化li的点击事件*/
+		liOnclick();
+		
+		/**模糊查询绑定事件*/
+		search.addEventListener('click',fuzzySearch,false);
+	}
+	
+
+	function fuzzySearch(){
+		var ul=document.getElementById('queue');
+		var lists=ul.getElementsByTagName('li');
+		var keyword=document.getElementById('search-input').value;
+		var reg = new RegExp(keyword);/*转换成正则表达式*/
+		for(var i=0;i<lists.length;i++)
+		{
+			if(reg.test(lists[i].innerText))
+			{
+				var a=lists[i].getElementsByTagName('a')[0];
+				a.style.backgroundColor="black";
+			}
+		}
+	}
+	//解决初始加载多个函数的问题
+function addLoadEvent(func){
+	var oldonload=window.onload;
+	if(typeof window.onload !='function'){
+		window.onload=func;
+	}else{
+		window.onload=function(){
+			oldonload();
+			func();
+		}
+	}
+}
+	addLoadEvent(init);
+	
+	</script>
+</body>
+</html>

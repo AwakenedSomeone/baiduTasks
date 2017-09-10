@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	div{
+		display: flex;
+	  flex-flow: row wrap;
+	  justify-content: space-around;
+	  align-items: center;
+	  background: #fff;
+	  margin: 5px;
+	  padding: 5px;
+	  border: 3px solid #000;
+	  border-radius: 4px;
+	  color: #000;
+	cursor: pointer;
+	}
+	.throuth{
+		background: #35A5CD;
+	}
+	.btn-group{
+		display: block;
+		border: none;
+		text-align: center;
+	}
+	.btn-group button{
+		border:2px solid #000;
+		background: #fff;
+		color: #35A5CD;
+		cursor: pointer;
+	}
+	 .selected{
+		background-color:#35a5cd;
+	}
+	</style>
+</head>
+
+<body>
+<div class="btn-group">
+<input type="text" name="search-input" id="search-input" />
+	<button id="prev">先序查询</button>
+	<button id="last">后序查询</button>
+	<button id="delete">删除</button>
+	<input type="text" name="add-input" id="add-input" />
+	<button id="add">增加</button>
+</div>
+<div class="root" id="root">root
+	<div class="tree-1 ">
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">怎么</div>
+				<div class="tree-4">舍得</div>
+				如此
+			</div>
+			
+			<div class="tree-3">
+				<div class="tree-4">接受</div>
+				<div class="tree-4">你的</div>
+				爱
+			</div>
+			从来
+		</div>
+		
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">喜欢</div>
+				<div class="tree-4">都会</div>
+				被爱
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">成</div>
+				<div class="tree-4">悲哀</div>
+				揽
+			</div>
+			你
+		</div>
+		入
+	</div>
+	
+	
+	<div class="tree-1">
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">胸怀</div>
+				<div class="tree-4">当我</div>
+				越是
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">深爱</div>
+				<div class="tree-4">脾气</div>
+				就会
+			</div>
+			越坏
+		</div>
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">羞答答</div>
+				<div class="tree-4">的玫瑰</div>
+				静悄悄
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">的开</div>
+				<div class="tree-4">慢慢地</div>
+				绽放
+			</div>
+			它
+		</div>
+		风采
+	</div>
+
+</div>
+<script src="js/task9.js"></script>
+</body>
+</html>

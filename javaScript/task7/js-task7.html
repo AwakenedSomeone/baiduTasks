@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	div{
+		border: 2px solid #000;
+		border-radius: 5px;
+		background-color: #fff;
+		margin: auto;
+	}
+	
+	.root{
+		width: 800px;
+		height: 600px;
+		margin: 20px auto;
+		padding: 10px;
+		text-align: center;
+	}
+	.tree-1{
+		width: 80%;
+		height: 40%;
+		margin: 20px auto;
+		overflow: hidden;
+	}
+	.tree-2{
+		width: 40%;
+		height: 80%;
+		margin: 20px;
+		float: left;
+	}
+	.tree-3{
+	width: 40%;
+		height: 40%;
+		margin: 10px;
+	float: left;
+	}
+	.tree-4{
+		width: 30%;
+		height: 40%;
+		margin: 5px;
+		float: left;
+	}
+	.throuth{
+		background: #35A5CD;
+	}
+	.btn-group{
+		border: none;
+		text-align: center;
+	}
+	.btn-group button{
+		border:2px solid #000;
+		background: #fff;
+		color: #35A5CD;
+	}
+	button:hover{
+		cursor: pointer;
+		background-color: #35a5cd;
+		color: #fff;
+	}
+	</style>
+</head>
+
+<body>
+<div class="btn-group">
+	<button id="prev">先序</button>
+	<button id="middle">中序</button>
+	<button id="last">后序</button>
+</div>
+<div class="root" id="root">root
+	<div class="tree-1">
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			2
+		</div>
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			2
+		</div>
+		1
+	</div>
+	
+	
+	<div class="tree-1">
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			2
+		</div>
+		<div class="tree-2">
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			<div class="tree-3">
+				<div class="tree-4">4</div>
+				<div class="tree-4">4</div>
+				3
+			</div>
+			2
+		</div>
+		1
+	</div>
+
+</div>
+<script>
+	/*笔记：最开始做的时候写得很复杂，原因是想法不同，最初想的是遍历一个节点，就绘制一个节点的背景色，一个函数负责绘制，另一个函数负责查找下一个节点，这样就很复杂了，因为要记住上一个节点，而在二叉树中，不同遍历方式的上一个节点不好控制，所以每个遍历方式都要写不同的查找函数，为了找到下一个节点，又要写很复杂的算法来考虑所有的情况，所以在写中序的时候就已经走不下去了，参考了别人的做法，觉得先将遍历的节点按照遍历顺序存放到栈里面，再按照栈里的顺序绘制背景，就不用考虑这么复杂了，而且代码重用率更高*/
+	
+	
+	function putTree(){
+		var throuthTree;
+		var root=document.getElementById("root");
+		var stackArr=[];
+		var lastNode;//记录上一个遍历的节点
+		
+		//初始化
+		function init(){
+			stackArr=[];
+			if(lastNode)
+				{
+					lastNode.style.backgroundColor="#fff";
+				}
+		}
+		//显示遍历效果
+		function show(){
+			var i=0;
+			throuthTree=setInterval(function(){
+				if(i==stackArr.length-1)
+					{
+						clearInterval(throuthTree);
+					}
+				if(lastNode)
+					{
+						lastNode.style.backgroundColor="#fff";	
+					}
+				stackArr[i].style.backgroundColor="#35A5CD";
+				lastNode=stackArr[i];
+				i++;
+			},1000);
+				
+		}
+		//前序遍历
+		function prev(node){
+			if(node){
+				stackArr.push(node);
+				prev(node.firstElementChild);
+				prev(node.lastElementChild);
+			}
+		}
+		//中序遍历
+		function middle(node){
+			if(node){
+				
+				middle(node.firstElementChild);
+				stackArr.push(node);
+				middle(node.lastElementChild);
+			}
+		}
+		//后序遍历
+		function last(node){
+			if(node){
+				
+				last(node.firstElementChild);
+				
+				last(node.lastElementChild);
+				stackArr.push(node);
+			}
+		}
+		var prevBtn=document.getElementById("prev");
+		prevBtn.onclick=function(){
+			init();
+			prev(root);
+			show();	
+	}
+		var middleBtn=document.getElementById("middle");
+		middleBtn.onclick=function(){
+			init();
+			middle(root);
+			show();
+		}
+		
+		var lastBtn=document.getElementById("last");
+		lastBtn.onclick=function(){
+			init();
+			last(root);
+			show();
+		}
+		
+	}
+		
+	function addLoadEvent(func){
+	var oldonload=window.onload;
+	if(typeof window.onload !='function'){
+		window.onload=func;
+	}else{
+		window.onload=function(){
+			oldonload();
+			func();
+		}
+	}
+}
+	addLoadEvent(putTree);
+	</script>
+</body>
+</html>
