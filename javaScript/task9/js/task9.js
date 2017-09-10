@@ -30,7 +30,7 @@
 			var childB=Array.prototype.slice.call(childA,0);//将类数组转换成数组对象
 			for (var k = 0; k < childB.length; k++) {
 				  if (childB[k].nodeType == "3"&&childB[k]!=null&&childB[k].nodeValue.indexOf(keyword)>-1) {
-					addClass(stackArr[i],"selected");//特殊显示查询到的元素;
+				/*	addClass(stackArr[i],"selected");//特殊显示查询到的元素;多余的*/
 					childC.push(stackArr[i]);
 					  lastNode=stackArr[i+1];
 					  break;
