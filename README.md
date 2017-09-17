@@ -12,3 +12,9 @@ task9:https://awakenedsomeone.github.io/baiduTasks/Html+Css/task9/task9.html
 https://awakenedsomeone.github.io/baiduTasks/javaScript/task4/js-task4.html
 
 https://awakenedsomeone.github.io/baiduTasks/javaScript/task5/js-task5.html
+
+https://awakenedsomeone.github.io/baiduTasks/javaScript/task6/js-task6.html
+
+https://awakenedsomeone.github.io/baiduTasks/javaScript/task7/js-task7.html
+
+https://awakenedsomeone.github.io/baiduTasks/javaScript/task9/js-task9.html
