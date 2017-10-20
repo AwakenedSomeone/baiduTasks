@@ -107,7 +107,7 @@ a{
 }
 
 .left_side{
-	width: 20%;
+	width: 269px;
 	position: absolute;/*配合border，定位在border处*/
 	margin-left: -269px;
 	
