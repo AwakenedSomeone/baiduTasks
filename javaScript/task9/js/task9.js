@@ -38,7 +38,7 @@
 				 lastNode=stackArr[i];
 			 }
 		i++;
-		},100);
+		},500);
 		
 	}
 	
